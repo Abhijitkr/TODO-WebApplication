@@ -28,7 +28,6 @@ function addItem(){
         li = document.createElement('li')
         var checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
-        checkbox.setAttribute('id', 'check')
         var label = document.createElement('label')
         ul.appendChild(label)
         li.appendChild(checkbox)
