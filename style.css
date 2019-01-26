@@ -63,7 +63,7 @@ input[type="checkbox"] {
     height: 27px;
     width: 30px;
 }
-#check:checked:after{
+/* #check:checked:after{
     content: '\2714';
     font-size: 27px;
     position: relative;
@@ -71,7 +71,7 @@ input[type="checkbox"] {
     left: 3.5px;
     font-weight: bold;
     color: black;
-}
+} */
 input[type="checkbox"]:checked + label{
     text-decoration: line-through;
     color: rgba(0, 0, 0, .3);
