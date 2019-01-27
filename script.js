@@ -16,7 +16,8 @@ function addItem(){
     var item = input.value
     ul = document.getElementById('todos')
     var textNode = document.createTextNode(item)
-    if(item === ''){
+    var reWhiteSpace = new RegExp("/^\s*$/")
+    if(item !== reWhiteSpace.test(item)){
         const myPara = document.createElement('p')
         myPara.textContent = 'Enter your TODO!'
         document.querySelector('form').appendChild(myPara)
@@ -28,6 +29,7 @@ function addItem(){
         li = document.createElement('li')
         var checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
+        // checkbox.setAttribute('id', 'check')
         var label = document.createElement('label')
         ul.appendChild(label)
         li.appendChild(checkbox)
