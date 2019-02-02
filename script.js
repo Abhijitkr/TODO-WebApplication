@@ -16,8 +16,8 @@ function addItem(){
     var item = input.value
     ul = document.getElementById('todos')
     var textNode = document.createTextNode(item)
-//     var reWhiteSpace = new RegExp("/^\s+$/")
-    if(item === '' /*|| reWhiteSpace.test(item)*/){
+    var reWhiteSpace = /^\s+$/
+    if(item === '' || reWhiteSpace.test(item)){
         const myPara = document.createElement('p')
         myPara.textContent = 'Enter your TODO!'
         document.querySelector('form').appendChild(myPara)
