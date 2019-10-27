@@ -1,6 +1,5 @@
 var ul = document.getElementById('todos')
-var li
-
+var li, count = 1, checkingDuplication
 
 var addButton = document.getElementById('add')
 addButton.addEventListener('click', addItem)
@@ -17,6 +16,7 @@ function addItem(){
     ul = document.getElementById('todos')
     var textNode = document.createTextNode(item)
     var reWhiteSpace = /^\s+$/
+
     if(item === '' || reWhiteSpace.test(item)){
         const myPara = document.createElement('p')
         myPara.textContent = 'Please Enter your TODO!'
@@ -26,13 +26,22 @@ function addItem(){
         }, 5500)
         input.value = ''
     }
+    else if(item === checkingDuplication) {
+        const duplicate = document.createElement('p')
+        duplicate.textContent = 'Already Present In Your List!'
+        document.querySelector('form').appendChild(duplicate)
+        setTimeout(() => {
+            duplicate.textContent = ''
+        }, 5500)
+        input.value = ''
+    }
     else {
         li = document.createElement('li')
         var checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
-        // checkbox.setAttribute('id', 'check')
+        checkbox.setAttribute('id', count)
         var label = document.createElement('label')
-        // label.for = 'check'
+        label.htmlFor = count
         ul.appendChild(label)
         li.appendChild(checkbox)
         label.appendChild(textNode)
@@ -41,9 +50,11 @@ function addItem(){
         setTimeout(() => {
             li.className = 'visual'
         }, 2)
+        checkingDuplication = item
         input.value = ''
+        count++
     }  
-
+    
 }
 function removeItem(){
     li = ul.children
