@@ -63,11 +63,12 @@ function removeItem(){
              ul.removeChild(li[i])
 }
     }
-    
+    checkingDuplication = ''
 }
 
 function removeAllItem(){
     while(ul.hasChildNodes()){
         ul.removeChild(ul.firstChild)
     }
+    checkingDuplication = ''
 }
