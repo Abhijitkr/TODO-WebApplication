@@ -23,6 +23,8 @@ include 'todo.php';  // Include todo.php
           <button type="button" class="rounded btn btn-primary btn-block" id="add">Add TODO</button>
           <button type="button" class="rounded btn btn-danger btn-block" id="remove">Remove Done TODO</button>
           <button type="button" class="rounded btn btn-warning btn-block" id="removeAll">Remove All TODOS</button>
+          <!-- <button id="saveChanges">Save Changes</button> -->
+
         </form>
         <ul class="visual" id="todos">
           <!-- <li class="myCheck">

@@ -27,5 +27,6 @@ $mysqli->close();
 
 // Return the todos as a JSON response
 $response = array('success' => true, 'todos' => $todos);
+header('Content-Type: application/json'); // Set the response header as JSON
 echo json_encode($response);
 ?>
