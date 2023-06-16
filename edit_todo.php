@@ -1,6 +1,7 @@
 <?php
 // Check if the ID and newText parameters are provided
-if (isset($_POST['id']) && isset($_POST['newText'])) {
+if (isset($_POST['id']) && isset($_POST['newText']) && !empty(trim($_POST['newText']))) {
+    // Retrieve the values from the request
     $itemId = $_POST['id'];
     $newText = $_POST['newText'];
 
@@ -21,8 +22,11 @@ if (isset($_POST['id']) && isset($_POST['newText'])) {
     // Prepare and execute the update statement
     $stmt = $conn->prepare("UPDATE todos SET item = ? WHERE id = ?");
     $stmt->bind_param("si", $newText, $itemId);
-    $stmt->execute();
-
+    
+    // Check if the update value is not empty
+    if (!empty($newText)) {
+        $stmt->execute();
+    }
     // Check if the update was successful
     if ($stmt->affected_rows > 0) {
         $response = array("success" => true);
