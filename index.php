@@ -1,7 +1,3 @@
-<?php
-include 'todo.php';  // Include todo.php
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,21 +10,24 @@ include 'todo.php';  // Include todo.php
   <title>MY TODO LIST</title>
 </head>
 <body>
-    <div class="main">
-      <div class="container">
-        <div class="space">
-        <h1>MY AWESOME TODO</h1>
+  <div class="main">
+    <div class="container">
+      <div class="todo-header">
+        <h1 class="heading">MY AWESOME TODO</h1>
         <form>
-          <input class="rounded insert" id="input" type="text">
+          <input class="rounded insert" id="input" type="text" placeholder="Enter your todo">
           <button type="button" class="rounded btn btn-primary btn-block" id="add">Add TODO</button>
-          <button type="button" class="rounded btn btn-danger btn-block" id="remove">Remove Done TODO</button>
-          <button type="button" class="rounded btn btn-warning btn-block" id="removeAll">Remove All TODOS</button>
         </form>
-        <ul class="visual" id="todos">
+      </div>
+      <ul class="todo-list" id="todos">
 
-        </ul>               
+      </ul>               
+      <div class="todo-footer">
+        <button type="button" class="rounded btn btn-danger btn-block" id="remove">Remove Done TODO</button>
+        <button type="button" class="rounded btn btn-warning btn-block" id="removeAll">Remove All TODOS</button>
       </div>
     </div>
+  </div>
+  <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>

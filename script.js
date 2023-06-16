@@ -67,6 +67,9 @@ function addItemToUI(itemId, item, checked) {
   li.appendChild(checkbox);
   li.appendChild(label);
   ul.appendChild(li);
+
+    // Apply animation to the newly added item
+    li.classList.add('animation');
 }
 
 
@@ -198,3 +201,4 @@ window.addEventListener('load', function() {
   };
   xhr.send();
 });
+
