@@ -3,25 +3,13 @@
 if (isset($_POST['id'])) {
     $itemId = $_POST['id'];
 
-    // Database connection parameters
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "todo";
-
-    // Create a connection to the database
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connect.php';
 
     // Prepare the SQL statement to delete the item from the database
     $sql = "DELETE FROM todos WHERE id = ?";
 
     // Prepare and bind the parameters
-    $stmt = $conn->prepare($sql);
+    $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("i", $itemId);
 
     // Execute the statement
@@ -41,7 +29,7 @@ if (isset($_POST['id'])) {
 
     // Close the statement and the database connection
     $stmt->close();
-    $conn->close();
+    $mysqli->close();
 
     // Send the JSON response
     echo json_encode($response);

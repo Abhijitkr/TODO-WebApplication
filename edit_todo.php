@@ -5,22 +5,10 @@ if (isset($_POST['id']) && isset($_POST['newText']) && !empty(trim($_POST['newTe
     $itemId = $_POST['id'];
     $newText = $_POST['newText'];
 
-    // Database connection parameters
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "todo";
-
-    // Create a connection to the database
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    // Check if the connection was successful
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connect.php';
 
     // Prepare and execute the update statement
-    $stmt = $conn->prepare("UPDATE todos SET item = ? WHERE id = ?");
+    $stmt = $mysqli->prepare("UPDATE todos SET item = ? WHERE id = ?");
     $stmt->bind_param("si", $newText, $itemId);
     
     // Check if the update value is not empty
@@ -36,7 +24,7 @@ if (isset($_POST['id']) && isset($_POST['newText']) && !empty(trim($_POST['newTe
 
     // Close the prepared statement and database connection
     $stmt->close();
-    $conn->close();
+    $mysqli->close();
 
     // Return the response as JSON
     echo json_encode($response);

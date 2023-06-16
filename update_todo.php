@@ -4,25 +4,13 @@ if (isset($_POST['id'], $_POST['checked'])) {
     $itemId = $_POST['id'];
     $checked = $_POST['checked'];
 
-    // Database connection parameters
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "todo";
-
-    // Create a connection to the database
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connect.php';
 
     // Prepare the SQL statement to update the checked status of the item
     $sql = "UPDATE todos SET checked = ? WHERE id = ?";
 
     // Prepare and bind the parameters
-    $stmt = $conn->prepare($sql);
+    $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ii", $checked, $itemId);
 
     // Execute the statement
@@ -48,7 +36,7 @@ if (isset($_POST['id'], $_POST['checked'])) {
 
     // Close the statement and the database connection
     $stmt->close();
-    $conn->close();
+    $mysqli->close();
 } else {
     // If the ID and checked parameters are not provided, prepare the response
     $response = array(
