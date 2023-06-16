@@ -74,7 +74,8 @@ function updateDatabase(event) {
   var checkbox = event.target;
   var isChecked = checkbox.checked ? 1 : 0;
   var itemId = checkbox.id.replace('check', '');
-
+  var text = checkbox.nextElementSibling.textContent;
+  
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'update_todo.php', true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -86,8 +87,9 @@ function updateDatabase(event) {
       }
     }
   };
-  xhr.send('id=' + itemId + '&checked=' + isChecked + '&text=' + encodeURIComponent(checkbox.nextElementSibling.textContent));
+  xhr.send('id=' + itemId + '&checked=' + isChecked + '&text=' + encodeURIComponent(text));
 }
+
 
 
 function removeItem() {
@@ -151,7 +153,7 @@ function editItem(label) {
     var itemId = label.getAttribute('for').replace('check', '');
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'update_todo.php', true);
+    xhr.open('POST', 'edit_todo.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -167,9 +169,10 @@ function editItem(label) {
         }
       }
     };
-    xhr.send('itemId=' + encodeURIComponent(itemId) + '&newText=' + encodeURIComponent(newText));
+    xhr.send('id=' + encodeURIComponent(itemId) + '&newText=' + encodeURIComponent(newText));
   }
 }
+
 
 // Fetch todos from the database and add them to the UI on page load
 window.addEventListener('load', function() {
