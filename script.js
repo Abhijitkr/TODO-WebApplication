@@ -174,12 +174,33 @@ function removeItem() {
 
 
 
-function removeAllItem(){
-  while(ul.hasChildNodes()){
-      ul.removeChild(ul.firstChild)
-  }
-  checkingDuplication = ''
+// function removeAllItem(){
+//   while(ul.hasChildNodes()){
+//       ul.removeChild(ul.firstChild)
+//   }
+//   checkingDuplication = ''
+// }
+
+
+
+function removeAllItem() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'remove_all_todos.php', true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      var response = JSON.parse(xhr.responseText);
+      if (response.success) {
+        // Remove all items from the UI
+        ul.innerHTML = '';
+      } else {
+        alert(response.message);
+      }
+    }
+  };
+  xhr.send();
 }
+
 
 
 function editItem(label) {
