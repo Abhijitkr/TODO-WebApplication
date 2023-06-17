@@ -43,6 +43,7 @@
     }
     
     .form-group input[type="text"],
+    .form-group input[type="email"],
     .form-group input[type="password"] {
       border-radius: 5px;
       border: 1px solid #ccc;
@@ -71,7 +72,7 @@
         <form method="POST" action="login.php">
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" name="email" id="email" placeholder="Enter your email">
+            <input type="email" name="email" id="email" placeholder="Enter your email">
           </div>
           <div class="form-group">
             <label for="password">Password</label>
@@ -103,6 +104,36 @@
     // Event listener for Sign Up and Login links
     document.getElementById('sign-up-link').addEventListener('click', toggleForms);
     document.getElementById('login-link').addEventListener('click', toggleForms);
+// Form validation for login page
+var loginForm = document.getElementById('login-form');
+loginForm.addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the form from submitting
+
+  var emailInput = document.getElementById('email');
+  var passwordInput = document.getElementById('password');
+
+  // Perform validation
+  if (!validateEmail(emailInput.value)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  if (passwordInput.value.length < 6) {
+    alert('Password must be at least 6 characters long.');
+    return;
+  }
+
+  // If validation passes, submit the form
+  loginForm.submit();
+});
+
+// Email validation function
+function validateEmail(email) {
+  // Add your email validation logic here
+  return true; // Return true for demonstration purposes
+}
+
+
   </script>
 </body>
 </html>
