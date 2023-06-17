@@ -3,31 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <title>MY TODO LIST</title>
+  <title>Awesome Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    body, html {
+      height: 100%;
+    }
+    
+    .full-screen {
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    
+    .jumbotron {
+      background-color: #333;
+      color: #fff;
+      padding: 50px;
+      text-align: center;
+    }
+    
+    .display-4 {
+      font-size: 3rem;
+      margin-bottom: 30px;
+    }
+    
+    .buttons {
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
-  <div class="main">
-    <div class="container">
-      <div class="todo-header">
-        <h1 class="heading">MY AWESOME TODO</h1>
-        <form>
-          <input class="rounded insert" id="input" type="text" placeholder="Enter your todo">
-          <button type="button" class="rounded btn btn-primary btn-block" id="add">Add TODO</button>
-        </form>
-      </div>
-      <ul class="todo-list" id="todos">
-
-      </ul>               
-      <div class="todo-footer">
-        <button type="button" class="rounded btn btn-danger btn-block" id="remove">Remove Done TODO</button>
-        <button type="button" class="rounded btn btn-warning btn-block" id="removeAll">Remove All TODOS</button>
+  <div class="full-screen">
+    <div class="jumbotron">
+      <h1 class="display-4">Welcome to the Awesome Page</h1>
+      <div class="buttons">
+        <a href="register.php" class="btn btn-primary btn-lg mr-3">Sign Up</a>
+        <a href="signin.php" class="btn btn-secondary btn-lg">Log In</a>
       </div>
     </div>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
