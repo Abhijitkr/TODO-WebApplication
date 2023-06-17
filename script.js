@@ -55,52 +55,6 @@ function addItem() {
   input.value = '';
 }
 
-function addItemToUI(itemId, item, checked) {
-  var li = document.createElement('li');
-  var checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.setAttribute('id', 'check' + itemId);
-  checkbox.setAttribute('value', '1');
-  checkbox.addEventListener('change', updateDatabase);
-  var label = document.createElement('label');
-  label.htmlFor = 'check' + itemId;
-  label.textContent = item;
-
-  // Check if the todo should be marked as checked
-  if (checked === '1') {
-    checkbox.checked = true;
-    li.classList.add('myCheck');
-  }
-
-  li.appendChild(checkbox);
-  li.appendChild(label);
-  ul.appendChild(li);
-
-  // Apply animation to the newly added item
-  li.classList.add('animation');
-}
-
-
-function updateDatabase(event) {
-  var checkbox = event.target;
-  var isChecked = checkbox.checked ? 1 : 0;
-  var itemId = checkbox.id.replace('check', '');
-  var text = checkbox.nextElementSibling.textContent;
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'update_todo.php', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      var response = JSON.parse(xhr.responseText);
-      if (!response.success) {
-        alert('An error occurred while updating the todo.');
-      }
-    }
-  };
-  xhr.send('id=' + itemId + '&checked=' + isChecked + '&text=' + encodeURIComponent(text));
-}
-
 
 
 function removeItem() {
@@ -210,3 +164,47 @@ window.addEventListener('load', function () {
   xhr.send();
 });
 
+function addItemToUI(itemId, item, checked) {
+  var li = document.createElement('li');
+  var checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.setAttribute('id', 'check' + itemId);
+  checkbox.setAttribute('value', '1');
+  checkbox.addEventListener('change', updateDatabase);
+  var label = document.createElement('label');
+  label.htmlFor = 'check' + itemId;
+  label.textContent = item;
+ 
+  // Check if the todo should be marked as checked
+  if (checked === 1) {
+    checkbox.checked = true;
+    li.classList.add('myCheck');
+  }
+
+  li.appendChild(checkbox);
+  li.appendChild(label);
+  ul.appendChild(li);
+
+  // Apply animation to the newly added item
+  li.classList.add('animation');
+}
+
+function updateDatabase(event) {
+  var checkbox = event.target;
+  var isChecked = checkbox.checked ? 1 : 0;
+  var itemId = checkbox.id.replace('check', '');
+  var text = checkbox.nextElementSibling.textContent;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'update_todo.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      var response = JSON.parse(xhr.responseText);
+      if (!response.success) {
+        alert('An error occurred while updating the todo.');
+      }
+    }
+  };
+  xhr.send('id=' + itemId + '&checked=' + isChecked + '&text=' + encodeURIComponent(text));
+}
