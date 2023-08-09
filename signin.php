@@ -88,6 +88,7 @@
   </div>
 
   <script>
+
     // Function to toggle between Sign Up and Login forms
     function toggleForms() {
       var signUpForm = document.getElementById('sign-up-form');

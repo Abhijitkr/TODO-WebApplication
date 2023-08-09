@@ -17,16 +17,17 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             $_SESSION['user_id'] = $user['id']; // Store the user_id in the session
 
             echo "<script>alert('Login successful!');</script>";
+            echo "<script>window.location.href = 'todolist.php';</script>";
             exit();
         } else {
             echo "<script>alert('Invalid email or password.');</script>";
-            echo "<script>window.location.href = 'signin.php';</script>";
         }
 
-        $stmt->close();
-        $mysqli->close();
     } else {
         echo "<script>alert('Please fill in all the required fields.');</script>";
+        echo "<script>window.location.href = 'signin.php';</script>";
     }
+    $stmt->close();
+    $mysqli->close();
 }
 ?>
