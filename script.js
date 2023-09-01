@@ -181,11 +181,11 @@ function addItemToUI(itemId, item, checked) {
     li.classList.add('myCheck');
   }
 
-  li.appendChild(checkbox);
-  li.appendChild(label);
-  ul.appendChild(li);
+  li.insertAdjacentElement('afterbegin', checkbox);
+  li.insertAdjacentElement('afterbegin', label);
+  ul.insertAdjacentElement('afterbegin', li);
 
-  // Apply animation to the newly added item
+  // Apply animation to the newly added
   li.classList.add('animation');
 }
 
