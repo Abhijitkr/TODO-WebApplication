@@ -21,6 +21,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             exit();
         } else {
             echo "<script>alert('Invalid email or password.');</script>";
+            echo "<script>window.location.href = 'signin.php';</script>";
         }
 
     } else {
