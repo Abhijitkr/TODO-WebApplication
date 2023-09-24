@@ -16,7 +16,8 @@ ul.addEventListener('dblclick', function (event) {
   }
 });
 
-function addItem() {
+function addItem(e) {
+  e.preventDefault();
   var input = document.getElementById('input');
   var item = input.value.trim();
 
@@ -174,7 +175,7 @@ function addItemToUI(itemId, item, checked) {
   var label = document.createElement('label');
   label.htmlFor = 'check' + itemId;
   label.textContent = item;
- 
+
   // Check if the todo should be marked as checked
   if (checked === 1) {
     checkbox.checked = true;
