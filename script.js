@@ -1,5 +1,6 @@
 var ul = document.getElementById('todos');
 var todos = new Set(); // Collection to store added todos
+var draggedItem = null;
 
 var addButton = document.getElementById('add');
 addButton.addEventListener('click', addItem);
@@ -188,6 +189,7 @@ function addItemToUI(itemId, item, checked) {
 
   // Apply animation to the newly added
   li.classList.add('animation');
+  li.setAttribute('draggable', 'true');
 }
 
 function updateDatabase(event) {
@@ -209,3 +211,35 @@ function updateDatabase(event) {
   };
   xhr.send('id=' + itemId + '&checked=' + isChecked + '&text=' + encodeURIComponent(text));
 }
+
+ul.addEventListener('dragstart', function (event) {
+  if (event.target.tagName === 'LI') {
+    draggedItem = event.target;
+    event.dataTransfer.setData('text/plain', ''); // Required for Firefox
+  }
+});
+
+ul.addEventListener('dragover', function (event) {
+  event.preventDefault();
+});
+
+ul.addEventListener('drop', function (event) {
+  event.preventDefault();
+  if (draggedItem && event.target.tagName === 'LI') {
+    // Swap the positions of the dragged item and the drop target
+    const dropTarget = event.target;
+    const dropTargetIndex = Array.from(ul.children).indexOf(dropTarget);
+    const draggedIndex = Array.from(ul.children).indexOf(draggedItem);
+
+    if (dropTargetIndex !== -1 && draggedIndex !== -1) {
+      // Remove the animation class before swapping to prevent glitches
+      draggedItem.classList.remove('animation');
+      ul.insertBefore(draggedItem, dropTargetIndex > draggedIndex ? dropTarget.nextSibling : dropTarget);
+      // Add animation class after swapping for smooth transition
+      setTimeout(() => {
+        draggedItem.classList.add('animation');
+      }, 0);
+    }
+  }
+  draggedItem = null;
+});
