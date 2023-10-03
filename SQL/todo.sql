@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 23, 2023 at 08:33 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost:3306
+-- Generation Time: Oct 03, 2023 at 02:58 PM
+-- Server version: 10.5.20-MariaDB
+-- PHP Version: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `todo`
+-- Database: `id20921698_todo`
 --
 
 -- --------------------------------------------------------
@@ -39,12 +39,18 @@ CREATE TABLE `todos` (
 --
 
 INSERT INTO `todos` (`id`, `item`, `checked`, `user_id`) VALUES
-(26, 'Testing', 0, 12),
-(27, 'Coding', 1, 12),
-(28, 'Reading', 0, 12),
-(29, 'Learning', 1, 12),
-(31, 'Watching', 0, 13),
-(32, 'Testing', 1, 13);
+(62, 'Study for Internals', 0, 21),
+(64, 'Edit the m7 clip ', 0, 21),
+(72, 'DAP Practical Assignment', 0, 21),
+(74, 'Get your 5k back', 0, 21),
+(121, 'Do LinkedIn Quiz Questions of Courses', 0, 21),
+(147, 'Add new Skills in Github Profile', 0, 21),
+(151, 'Rs 500 for freshers', 0, 21),
+(154, 'Write Review Paper on AI Effect on Humans', 1, 21),
+(159, 'Reduce Review Paper to 3-4 pages', 1, 21),
+(160, 'Prepare for Aptitude test (Alteast give mock test on first naukri) Last Date to learn 8th Oct', 0, 21),
+(161, 'Prepare for Codevita After Internals with development', 0, 21),
+(162, 'Add Drag and Drop feature in this TodoApp', 0, 21);
 
 -- --------------------------------------------------------
 
@@ -64,8 +70,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(12, 'Abhijit', 'abhijit@gmail.com', '$2y$10$BKZb0VlU4mh5YADVNv0S8ObrRZT4kcxuTdSdztTMbmLJz.48PBK3a'),
-(13, 'Tester', 'tester@gmail.com', '$2y$10$tGYcu6a7zp4IZQG84nW3pOdk59obInbOlmAEgpOxOb874jpqSGkr.');
+(13, 'Tester', 'tester@gmail.com', '$2y$10$tGYcu6a7zp4IZQG84nW3pOdk59obInbOlmAEgpOxOb874jpqSGkr.'),
+(21, 'Abhijit', 'abhijit@gmail.com', '$2y$10$rilT4UQJDVLxtn7HV9Nsr.lLp4RRm0zNMAQUJ89/M9CivIWuzynP2'),
+(22, 'Learn', 'learn@gmail.com', '$2y$10$NcnYFdyiXs1U1dNiypUAZOvqdbXVhXi2H6NLkRojlcnh.JdeaN/P2');
 
 --
 -- Indexes for dumped tables
@@ -92,13 +99,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `todos`
 --
 ALTER TABLE `todos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
