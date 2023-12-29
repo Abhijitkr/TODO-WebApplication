@@ -1,59 +1,245 @@
-var ul = document.getElementById('todos')
-var li
+var ul = document.getElementById('todos');
+var todos = new Set(); // Collection to store added todos
+var draggedItem = null;
 
+var addButton = document.getElementById('add');
+addButton.addEventListener('click', addItem);
 
-var addButton = document.getElementById('add')
-addButton.addEventListener('click', addItem)
+var removeButton = document.getElementById('remove');
+removeButton.addEventListener('click', removeItem);
 
-var removeButton = document.getElementById('remove')
-removeButton.addEventListener('click', removeItem)
+var removeAllButton = document.getElementById('removeAll');
+removeAllButton.addEventListener('click', removeAllItem);
 
-var removeAllButton = document.getElementById('removeAll')
-removeAllButton.addEventListener('click', removeAllItem)
+ul.addEventListener('dblclick', function (event) {
+  if (event.target.tagName === 'LABEL') {
+    editItem(event.target);
+  }
+});
 
-function addItem(){
-    var input = document.getElementById('input')
-    var item = input.value
-    ul = document.getElementById('todos')
-    var textNode = document.createTextNode(item)
-    if(item === ''){
-        const myPara = document.createElement('p')
-        myPara.textContent = 'Enter your TODO!'
-        document.querySelector('form').appendChild(myPara)
-        setTimeout(() => {
-            myPara.textContent = ''
-        }, 5500)
+function addItem(e) {
+  e.preventDefault();
+  var input = document.getElementById('input');
+  var item = input.value.trim();
+
+  if (item === '') {
+    alert('Please enter your TODO!');
+    return;
+  }
+
+  // Check if the todo already exists
+  if (todos.has(item)) {
+    alert('The TODO already exists!');
+    return;
+  }
+
+  todos.add(item); // Add the new todo to the collection
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'add_todo.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          var itemId = response.itemId;
+          addItemToUI(itemId, item, '0'); // Pass '0' for unchecked todo
+        } else {
+          alert(response.message);
+        }
+      } else {
+        alert('An error occurred while adding the todo.');
+      }
     }
-    else {
-        li = document.createElement('li')
-        var checkbox = document.createElement('input')
-        checkbox.type = 'checkbox'
-        // checkbox.setAttribute('id', 'check')
-        var label = document.createElement('label')
-        ul.appendChild(label)
-        li.appendChild(checkbox)
-        label.appendChild(textNode)
-        li.appendChild(label)
-        ul.insertBefore(li, ul.childNodes[0])
-        setTimeout(() => {
-            li.className = 'visual'
-        }, 2)
-        input.value = ''
-    }  
+  };
+  xhr.send('item=' + encodeURIComponent(item));
+
+  input.value = '';
 }
 
-function removeItem(){
-    li = ul.children
-    for(let i=0; i<li.length; i++){
-         while(li[i] && li[i].children[0].checked){
-             ul.removeChild(li[i])
-}
-    }
-    
+
+
+function removeItem() {
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+  if (checkboxes.length === 0) {
+    alert('No todos selected to remove.');
+    return;
+  }
+
+  checkboxes.forEach(function (checkbox) {
+    var itemId = checkbox.id.replace('check', '');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'remove_todo.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          // Remove the item from the UI
+          var li = checkbox.parentNode;
+          li.parentNode.removeChild(li);
+        } else {
+          // Handle the error if item removal failed
+          alert(response.message);
+        }
+      }
+    };
+    xhr.send('id=' + encodeURIComponent(itemId));
+  });
 }
 
-function removeAllItem(){
-    while(ul.hasChildNodes()){
-        ul.removeChild(ul.firstChild)
+
+
+function removeAllItem() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'remove_all_todos.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          ul.innerHTML = '';
+        } else {
+          alert(response.message);
+        }
+      } else {
+        alert('An error occurred while removing all todos.');
+      }
     }
+  };
+  xhr.send();
 }
+
+function editItem(label) {
+  var newText = prompt('Enter the new text for this todo:', label.textContent);
+
+  if (newText !== null) {
+    var itemId = label.getAttribute('for').replace('check', '');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'edit_todo.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          if (response.success) {
+            label.textContent = newText;
+          } else {
+            alert(response.message);
+          }
+        } else {
+          alert('An error occurred while updating the todo.');
+        }
+      }
+    };
+    xhr.send('id=' + encodeURIComponent(itemId) + '&newText=' + encodeURIComponent(newText));
+  }
+}
+
+
+// Fetch todos from the database and add them to the UI on page load
+window.addEventListener('load', function () {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'fetch_todos.php', true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          var todos = response.todos;
+          for (var i = 0; i < todos.length; i++) {
+            var todo = todos[i];
+            addItemToUI(todo.id, todo.item, todo.checked);
+          }
+        } else {
+          alert(response.message);
+        }
+      } else {
+        alert('An error occurred while fetching the todos.');
+      }
+    }
+  };
+  xhr.send();
+});
+
+function addItemToUI(itemId, item, checked) {
+  var li = document.createElement('li');
+  var checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.setAttribute('id', 'check' + itemId);
+  checkbox.setAttribute('value', '1');
+  checkbox.addEventListener('change', updateDatabase);
+  var label = document.createElement('label');
+  label.htmlFor = 'check' + itemId;
+  label.textContent = item;
+
+  // Check if the todo should be marked as checked
+  if (checked === 1) {
+    checkbox.checked = true;
+    li.classList.add('myCheck');
+  }
+
+  li.appendChild(checkbox);
+  li.appendChild(label);
+  ul.appendChild(li);
+
+  // Apply animation to the newly added
+  li.classList.add('animation');
+  li.setAttribute('draggable', 'true');
+}
+
+function updateDatabase(event) {
+  var checkbox = event.target;
+  var isChecked = checkbox.checked ? 1 : 0;
+  var itemId = checkbox.id.replace('check', '');
+  var text = checkbox.nextElementSibling.textContent;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'update_todo.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      var response = JSON.parse(xhr.responseText);
+      if (!response.success) {
+        alert('An error occurred while updating the todo.');
+      }
+    }
+  };
+  xhr.send('id=' + itemId + '&checked=' + isChecked + '&text=' + encodeURIComponent(text));
+}
+
+ul.addEventListener('dragstart', function (event) {
+  if (event.target.tagName === 'LI') {
+    draggedItem = event.target;
+    event.dataTransfer.setData('text/plain', ''); // Required for Firefox
+  }
+});
+
+ul.addEventListener('dragover', function (event) {
+  event.preventDefault();
+});
+
+ul.addEventListener('drop', function (event) {
+  event.preventDefault();
+  if (draggedItem && event.target.tagName === 'LI') {
+    // Swap the positions of the dragged item and the drop target
+    const dropTarget = event.target;
+    const dropTargetIndex = Array.from(ul.children).indexOf(dropTarget);
+    const draggedIndex = Array.from(ul.children).indexOf(draggedItem);
+
+    if (dropTargetIndex !== -1 && draggedIndex !== -1) {
+      // Remove the animation class before swapping to prevent glitches
+      draggedItem.classList.remove('animation');
+      ul.insertBefore(draggedItem, dropTargetIndex > draggedIndex ? dropTarget.nextSibling : dropTarget);
+      // Add animation class after swapping for smooth transition
+      setTimeout(() => {
+        draggedItem.classList.add('animation');
+      }, 0);
+    }
+  }
+  draggedItem = null;
+});
