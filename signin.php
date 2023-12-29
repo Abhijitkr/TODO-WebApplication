@@ -69,7 +69,7 @@
         <h3>Login</h3>
       </div>
       <div class="card-body">
-        <form method="POST" action="login.php">
+        <form method="POST" action="login.php" id="login-form">
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" placeholder="Enter your email">
@@ -78,7 +78,8 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Enter your password">
           </div>
-          <input type="submit" value="Login" class="btn btn-primary">
+          <input type="submit" value="Login" class="btn btn-primary" style="width: 100%">
+          <input type="button" onCLick="handleGuest()" value="Guest Login" class="btn btn-primary" style="width: 100%; margin-top: 10px">
           <div class="toggle-form">
             Don't have an account? <a href="register.php" id="sign-up-link">Sign Up</a>
           </div>
@@ -88,6 +89,24 @@
   </div>
 
   <script>
+ 
+
+ function handleGuest() {
+  // Constant guest credentials
+  const guestEmail = "test@gmail.com";
+  const guestPassword = "test";
+
+  // Set values for email and password fields
+  var emailInput = document.getElementById('email');
+  var passwordInput = document.getElementById('password');
+
+  emailInput.value = guestEmail;
+  passwordInput.value = guestPassword;
+
+  // Submit the form
+  document.getElementById('login-form').submit();
+}
+
 
     // Function to toggle between Sign Up and Login forms
     function toggleForms() {

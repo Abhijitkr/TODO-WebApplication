@@ -82,7 +82,7 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password">
           </div>
-          <input type="submit" value="Sign Up" class="btn btn-primary">
+          <input type="submit" value="Sign Up" class="btn btn-primary" style="width: 100%">
           <div class="toggle-form">
             Already have an account? <a href="signin.php" id="login-link">Login</a>
           </div>
